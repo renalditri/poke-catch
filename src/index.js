@@ -1,12 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './css/style.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Details, MyList, PokeList, Catch, GenerationList } from "./pages";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<App />} />
+        <Route path="/details/:pokemonID" element={<Details />} />
+        <Route path="/list" element={<GenerationList />} />
+        <Route path="/myList" element={<GenerationList myList />} />
+        <Route path="/list/gen/:gen" element={<PokeList />} />
+        <Route path="/myList/gen/:gen" element={<MyList />} />
+        <Route path="/catch" element={<Catch />} />
+      </Routes>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );
