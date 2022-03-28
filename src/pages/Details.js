@@ -63,16 +63,20 @@ export default function Details(props) {
             <Col xs={6}>
               <BackButton icon={'bi-arrow-left-circle'} to={HomeLink[1]}>{HomeLink[0]}</BackButton>
             </Col>
-            <Col xs={6}>
-              <Button
-                colorPrimary={'red'} colorText={'white'} colorHover={'darkred'} colorActive={'black'}
-                colorTextHover={'white'} colorTextActive={'white'} colorFocus={'white'}
-                focusShadow={'0 0 0 0.25rem rgba(255, 0, 0, 0.5)'}
-                onClick={() => (ReleaseButton())} style={{ float: 'right' }}
-              >
-                Release Pokemon
-              </Button>
-            </Col>
+            {
+              (myPokemonID) ? (
+                <Col xs={6}>
+                  <Button
+                    colorPrimary={'red'} colorText={'white'} colorHover={'darkred'} colorActive={'black'}
+                    colorTextHover={'white'} colorTextActive={'white'} colorFocus={'white'}
+                    focusShadow={'0 0 0 0.25rem rgba(255, 0, 0, 0.5)'}
+                    onClick={() => (ReleaseButton())} style={{ float: 'right' }}
+                  >
+                    Release Pokemon
+                  </Button>
+                </Col>
+              ) : ''
+            }
           </Row>
           <Row>
             <ColCentered>
