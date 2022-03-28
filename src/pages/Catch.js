@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { Link } from "react-router-dom";
-import { Button, Container, CatchArena, ModalCatch } from "../components";
+import { Button, Container, CatchArena, ModalCatch, BackButton } from "../components";
 import { Row, Col, Card } from 'react-bootstrap';
 import { PokemonFetch } from "../fetchData";
 import pokemonData from "../placeholder_data/Pokemon";
@@ -58,11 +58,7 @@ export default function Catch(props) {
 
   return (
     <Container>
-      <li>
-        <ul>
-          <Link to="/">Home</Link>
-        </ul>
-      </li>
+      <BackButton icon={'bi-arrow-left-circle'} to="/">Home</BackButton>
       <ModalCatch show={failedShow} pokemon={pokemon.pokemon[0]} handleClose={handleClose} handleButton={handleButton}></ModalCatch>
       <ModalCatch isSuccess show={successShow} pokemon={pokemon.pokemon[0]} handleClose={handleClose} handleButton={handleButton}></ModalCatch>
       <CatchArena bg={randomBg()} pokemon={pokemon.pokemon[0]}></CatchArena>

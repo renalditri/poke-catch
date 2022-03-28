@@ -22,9 +22,9 @@ class LocalStorageManager {
 
   static delete(id) {
     const pokemon = JSON.parse(localStorage.pokemon);
-    const index = pokemon.myPokemon.indexOf(id);
-    if (index > -1) {
-      pokemon.myPokemon.splice(index, 1);
+    if (pokemon.myPokemon[id]) {
+      pokemon.myPokemon.splice(id, 1);
+      localStorage.pokemon = JSON.stringify(pokemon);
     }
     return JSON.parse(localStorage.pokemon);
   }

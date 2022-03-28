@@ -4,9 +4,10 @@ import propTypes from 'prop-types';
 import { Card, Col, Row, ButtonGroup } from 'react-bootstrap';
 import { Button } from '../components';
 import { Link } from "react-router-dom";
+import useWindowDimensions from '../hook/useWindowsDimension';
 
 export default function PokeCard(props) {
-  const { pokemon, xs = 3, myPokemon = false } = props;
+  const { pokemon, xs = 6, myPokemon = false } = props;
   const CardWrapper = styled(Card)`
     margin-top: 0.25rem;
     margin-bottom: 0.25rem;
@@ -28,27 +29,56 @@ export default function PokeCard(props) {
   const flavorText = (size == 12) ? {} : { display: 'none' };
   const colSize = {
     3: {
-      first: 12,
-      second: 12,
-      third: 12,
-      fourth: 0,
-      fifth: 12,
+      xs: {
+        first: 12,
+        second: 12,
+        third: 12,
+        fourth: 0,
+        fifth: 12,
+      },
+      md: {
+        first: 12,
+        second: 12,
+        third: 12,
+        fourth: 12,
+        fifth: 12,
+      }
     },
     6: {
-      first: 2,
-      second: 4,
-      third: 3,
-      fourth: 0,
-      fifth: 3,
+      xs: {
+        first: 12,
+        second: 12,
+        third: 12,
+        fourth: 0,
+        fifth: 12,
+      },
+      md: {
+        first: 2,
+        second: 3,
+        third: 4,
+        fourth: 0,
+        fifth: 3,
+      }
     },
     12: {
-      first: 1,
-      second: 2,
-      third: 2,
-      fourth: 4,
-      fifth: 3,
+      xs: {
+        first: 12,
+        second: 12,
+        third: 12,
+        fourth: 12,
+        fifth: 12,
+      },
+      md: {
+        first: 1,
+        second: 2,
+        third: 2,
+        fourth: 4,
+        fifth: 3,
+      }
     }
   };
+  const { height, width } = useWindowDimensions();
+  const vertical = (width < 1024) ? false : (xs != 3);
 
   if (myPokemon) {
     return pokemon.map((d, index) => {
@@ -58,20 +88,20 @@ export default function PokeCard(props) {
             <CardWrapper>
               <Card.Body {...props}>
                 <Row>
-                  <ColCentered xs={colSize[xs].first}>
+                  <ColCentered md={colSize[xs].md.first} xs={colSize[xs].xs.first}>
                     {d.id}
                   </ColCentered>
-                  <ColCentered xs={colSize[xs].second}>
+                  <ColCentered md={colSize[xs].md.second} xs={colSize[xs].xs.second}>
                     <img style={{ scale: "1.25" }} src={spriteUrl(d.id)} />
                   </ColCentered>
-                  <ColCentered xs={colSize[xs].third}>
+                  <ColCentered md={colSize[xs].md.third} xs={colSize[xs].xs.third}>
                     {d.name[0].toUpperCase() + d.name.slice(1)} ({d.nickname})
                   </ColCentered>
-                  <ColCentered xs={colSize[xs].fourth} style={flavorText}>
+                  <ColCentered md={colSize[xs].md.fourth} xs={colSize[xs].xs.fourth} style={flavorText}>
                     {d.flavor_texts[0].flavor_text}
                   </ColCentered>
-                  <ColCentered xs={colSize[xs].fifth}>
-                    <Types xs={xs} data={d.attributes[0].types}></Types>
+                  <ColCentered md={colSize[xs].md.fifth} xs={colSize[xs].xs.fifth}>
+                    <Types isVertical={vertical} data={d.attributes[0].types}></Types>
                   </ColCentered>
                 </Row>
               </Card.Body>
@@ -89,19 +119,19 @@ export default function PokeCard(props) {
           <CardWrapper>
             <Card.Body {...props}>
               <Row>
-                <ColCentered xs={colSize[xs].first}>
+                <ColCentered md={colSize[xs].md.first} xs={colSize[xs].xs.first}>
                   {d.id}
                 </ColCentered>
-                <ColCentered xs={colSize[xs].second}>
+                <ColCentered md={colSize[xs].md.second} xs={colSize[xs].xs.second}>
                   <img style={{ scale: "1.25" }} src={spriteUrl(d.id)} />
                 </ColCentered>
-                <ColCentered xs={colSize[xs].third}>
+                <ColCentered md={colSize[xs].md.third} xs={colSize[xs].xs.third}>
                   {d.name[0].toUpperCase() + d.name.slice(1)}
                 </ColCentered>
-                <ColCentered xs={colSize[xs].fourth} style={flavorText}>
+                <ColCentered md={colSize[xs].md.fourth} xs={colSize[xs].xs.fourth} style={flavorText}>
                   {d.flavor_texts[0].flavor_text}
                 </ColCentered>
-                <ColCentered xs={colSize[xs].fifth}>
+                <ColCentered md={colSize[xs].md.fifth} xs={colSize[xs].xs.fifth}>
                   <Types xs={xs} data={d.attributes[0].types}></Types>
                 </ColCentered>
               </Row>
@@ -114,8 +144,7 @@ export default function PokeCard(props) {
 }
 
 function Types(props) {
-  const { data, xs } = props;
-  const isVertical = (xs != 3);
+  const { data, isVertical } = props;
   const color = {
     'grass': '#78C850',
     'fire': '#F08030',
@@ -137,9 +166,11 @@ function Types(props) {
     const { type } = props;
     const buttonProps = {
       colorPrimary: color[type],
+      colorHover: color[type],
+      colorActive: color[type],
       colorText: 'white',
-      colorHover: 'white',
-      colorActive: 'white',
+      colorTextHover: 'white',
+      colorTextActive: 'white',
     }
     const StyledButton = styled(Button)`
       border-color: transparent;
@@ -147,6 +178,14 @@ function Types(props) {
       padding: 0.25rem 0.5rem;
       border-radius: 0rem;
       cursor: context-menu;
+
+      @media (max-width: 1023px) {
+        font-size: 0.9rem;
+        border-color: transparent;
+        min-width: 2rem;
+        padding: 0.2rem 0.3rem;
+        border-radius: 0rem;
+      }
     `;
     return <StyledButton disabled {...buttonProps} {...props}></StyledButton>;
   }

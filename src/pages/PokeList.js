@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import { Container, PokeCard } from "../components";
+import { Container, PokeCard, BackButton, SizeButtons } from "../components";
 import { Row, Col, Card, Button, ButtonGroup } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import { PokemonFetch } from "../fetchData";
@@ -27,24 +27,16 @@ export default function PokeList(props) {
   }, []);
 
   const buttonClick = (e) => {
-    setColSize(e.target.value);
+    setColSize(e.currentTarget.value);
   }
 
   return (
     <Container>
-      <li>
-        <ul>
-          <Link to="/list">Lista</Link>
-        </ul>
-      </li>
       <Row className="w-100">
         <ColContainer>
+          <BackButton icon={'bi-arrow-left-circle'} to="/list">Gen</BackButton>
           <h2>Pokedex</h2>
-          <ButtonGroup>
-            <Button value={3} onClick={e => buttonClick(e)}>S</Button>
-            <Button value={6} onClick={e => buttonClick(e)}>M</Button>
-            <Button value={12} onClick={e => buttonClick(e)}>L</Button>
-          </ButtonGroup>
+          <SizeButtons clickHandler={buttonClick} colSize={colSize}></SizeButtons>
         </ColContainer>
       </Row>
       <Row className="w-100">

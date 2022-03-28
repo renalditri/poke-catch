@@ -4,10 +4,12 @@ import { css, cx } from '@emotion/react';
 import { Link } from "react-router-dom";
 
 export default function CustomButton(props) {
-  const { 
-    isLink = false, to = false, full = false, 
+  const {
+    isLink = false, to = false, full = false,
     colorPrimary = 'black', colorText = 'white',
-    colorHover = 'grey', colorActive = 'pink'
+    colorHover = 'grey', colorActive = 'pink',
+    colorTextHover = 'white', colorTextActive = 'blue',
+    colorFocus = 'blue', focusShadow = '0 0 0 0.25rem rgba(49, 132, 253, 0.5)',
   } = props,
     fullStyle = css`
       display: block;
@@ -27,14 +29,16 @@ export default function CustomButton(props) {
       cursor: pointer;
       ${(full) ? fullStyle : ''}
       &:hover {
-        color: ${colorHover};
+        background-color: ${colorHover};
+        color: ${colorTextHover};
       }
       &:active {
-        color: ${colorActive};
+        background-color: ${colorActive};
+        color: ${colorTextActive};
       }
       &:focus {
-        border-color: blue;
-        box-shadow: 0 0 0 0.25rem rgba(49, 132, 253, 0.5);
+        border-color: ${colorFocus};
+        box-shadow: ${focusShadow};
       }
     `,
     StyledButton = styled.button`${style}`,

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
-import { Button } from "../components";
+import { Button, BackButton } from "../components";
 import { Row, Col, Card, Table, ButtonGroup, Container } from 'react-bootstrap';
 import { Link } from "react-router-dom";
-import { BrowserRouter as Router, useParams } from "react-router-dom";
+import { BrowserRouter as Router, useParams, useNavigate } from "react-router-dom";
 import { LocalStorageManager } from "../fetchData";
 import { PokemonFetch } from "../fetchData";
 import pokemonPlaceholder from "../placeholder_data/Pokemon";
@@ -22,7 +22,7 @@ export default function Details(props) {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border: 4px solid black;
+    border: 2px solid black;
     border-radius: 0.5rem;
     padding: 0.75rem;
     margin: 0.75rem;
@@ -30,6 +30,7 @@ export default function Details(props) {
   const StyledTable = styled(Table)`
     padding: 1rem;
   `;
+  const navigate = useNavigate();
   useEffect(() => {
     if (pokemonID) {
       PokemonFetch.fetchPokemonByID(pokemonID)
@@ -46,19 +47,33 @@ export default function Details(props) {
   }, [])
 
   const ReleaseButton = () => {
-    LocalStorageManager.delete(myPokemonID);
+    if(window.confirm('Are you sure you want to release this pokemon?')) {
+      console.log('tes',myPokemonID)
+      console.log('tes',LocalStorageManager.delete(myPokemonID))
+      alert('Your pokemon has been released');
+      navigate('/myList')
+    }
   }
 
   return (
-    <Container>
-      Pokemon {pokemonData.id}
-      <li>
-        <ul>
-          <Link to={HomeLink[1]}>{HomeLink[0]}</Link>
-        </ul>
-      </li>
+    <Container className="p-3">
       <Card>
         <Card.Body>
+          <Row>
+            <Col xs={6}>
+              <BackButton icon={'bi-arrow-left-circle'} to={HomeLink[1]}>{HomeLink[0]}</BackButton>
+            </Col>
+            <Col xs={6}>
+              <Button
+                colorPrimary={'red'} colorText={'white'} colorHover={'darkred'} colorActive={'black'}
+                colorTextHover={'white'} colorTextActive={'white'} colorFocus={'white'}
+                focusShadow={'0 0 0 0.25rem rgba(255, 0, 0, 0.5)'}
+                onClick={() => (ReleaseButton())} style={{ float: 'right' }}
+              >
+                Release Pokemon
+              </Button>
+            </Col>
+          </Row>
           <Row>
             <ColCentered>
               <span>Name</span><br />
@@ -76,7 +91,7 @@ export default function Details(props) {
           <Row>
             <ColCentered>
               <PokeImg src={spriteUrl} />
-              <b>Types: </b><Types data={pokemonData.attributes[0].types}></Types>
+              <b>Type(s): </b><Types data={pokemonData.attributes[0].types}></Types>
             </ColCentered>
           </Row>
           <Row>
@@ -91,7 +106,7 @@ export default function Details(props) {
           </Row>
           <Row>
             <ColCentered>
-              <h3>Flavor Texts</h3>
+              <h3>Description</h3>
               <StyledTable>
                 <tbody>
                   <FlavorTexts flavTexts={pokemonData.flavor_texts}></FlavorTexts>

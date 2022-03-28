@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import { Container, PokeCard } from "../components";
+import { Container, PokeCard, BackButton, SizeButtons } from "../components";
 import { Row, Col, Card, Button, ButtonGroup } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import { LocalStorageManager } from "../fetchData";
@@ -25,24 +25,16 @@ export default function MyList(props) {
   console.log(pokemonList)
 
   const buttonClick = (e) => {
-    setColSize(e.target.value);
+    setColSize(e.currentTarget.value);
   }
 
   return (
     <Container>
-      <li>
-        <ul>
-          <Link to="/">Home</Link>
-        </ul>
-      </li>
       <Row className="w-100">
         <ColContainer>
-          <h2>Pokedex</h2>
-          <ButtonGroup>
-            <Button value={3} onClick={e => buttonClick(e)}>S</Button>
-            <Button value={6} onClick={e => buttonClick(e)}>M</Button>
-            <Button value={12} onClick={e => buttonClick(e)}>L</Button>
-          </ButtonGroup>
+          <BackButton icon={'bi-arrow-left-circle'} to="/">Home</BackButton>
+          <h2>My Pokemon</h2>
+          <SizeButtons clickHandler={buttonClick} colSize={colSize}></SizeButtons>
         </ColContainer>
       </Row>
       <Row className="w-100">
