@@ -3,6 +3,7 @@ const pokemonData = {
     {
       "id": 1,
       "name": "bulbasaur",
+      "generation_id": 1,
       "is_baby": false,
       "is_legendary": false,
       "is_mythical": false,

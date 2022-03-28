@@ -12,10 +12,10 @@ ReactDOM.render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/details/:pokemonID" element={<Details />} />
+        <Route path="/details/my/:myPokemonID" element={<Details />} />
         <Route path="/list" element={<GenerationList />} />
-        <Route path="/myList" element={<GenerationList myList />} />
+        <Route path="/myList" element={<MyList />} />
         <Route path="/list/gen/:gen" element={<PokeList />} />
-        <Route path="/myList/gen/:gen" element={<MyList />} />
         <Route path="/catch" element={<Catch />} />
       </Routes>
     </BrowserRouter>

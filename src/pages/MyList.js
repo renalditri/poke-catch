@@ -1,36 +1,61 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import { Button, Container } from "../components";
-import { Row, Col, Table, Card } from 'react-bootstrap';
+import { Container, PokeCard } from "../components";
+import { Row, Col, Card, Button, ButtonGroup } from 'react-bootstrap';
 import { Link } from "react-router-dom";
+import { LocalStorageManager } from "../fetchData";
+import { BrowserRouter as Router, useParams } from "react-router-dom";
+import placeholderData from "../placeholder_data/PokemonMyList";
 
 export default function MyList(props) {
-  return(
+  const [pokemonList, setPokemonList] = useState(placeholderData);
+  const [colSize, setColSize] = useState(6);
+  const CardContainer = styled(Card)`
+    padding: 2rem;
+  `;
+  const ColContainer = styled(Col)`
+    display: flex;
+    justify-content: space-between;
+  `;
+
+  useEffect(() => {
+    setPokemonList(LocalStorageManager.get())
+  }, []);
+
+  console.log(pokemonList)
+
+  const buttonClick = (e) => {
+    setColSize(e.target.value);
+  }
+
+  return (
     <Container>
       <li>
         <ul>
-          <Link to="/myList">My List</Link>
+          <Link to="/">Home</Link>
         </ul>
       </li>
-      <h2>My Pokemon</h2>
+      <Row className="w-100">
+        <ColContainer>
+          <h2>Pokedex</h2>
+          <ButtonGroup>
+            <Button value={3} onClick={e => buttonClick(e)}>S</Button>
+            <Button value={6} onClick={e => buttonClick(e)}>M</Button>
+            <Button value={12} onClick={e => buttonClick(e)}>L</Button>
+          </ButtonGroup>
+        </ColContainer>
+      </Row>
       <Row className="w-100">
         <Col>
-          <Card>
+          <CardContainer>
+
             <Row>
-              <Col>
-                <Card>
-                  asd
-                </Card>
-              </Col>
-              <Col>
-                <Card>
-                  asd
-                </Card>
-              </Col>
+              <PokeCard myPokemon xs={colSize} pokemon={pokemonList.myPokemon}></PokeCard>
             </Row>
-          </Card>
+
+          </CardContainer>
         </Col>
       </Row>
-    </Container>
+    </Container >
   )
 }

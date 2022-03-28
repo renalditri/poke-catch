@@ -2,12 +2,13 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { css, cx } from '@emotion/react';
 import { Link } from "react-router-dom";
-import Button from 'react-bootstrap/Button';
 
 export default function CustomButton(props) {
-  const { isLink = false, to = false, full = false } = props,
-    colorPrimary = 'black',
-    colorText = 'white',
+  const { 
+    isLink = false, to = false, full = false, 
+    colorPrimary = 'black', colorText = 'white',
+    colorHover = 'grey', colorActive = 'pink'
+  } = props,
     fullStyle = css`
       display: block;
       max-width: 100%;
@@ -26,10 +27,10 @@ export default function CustomButton(props) {
       cursor: pointer;
       ${(full) ? fullStyle : ''}
       &:hover {
-        color: grey;
+        color: ${colorHover};
       }
       &:active {
-        color: red;
+        color: ${colorActive};
       }
       &:focus {
         border-color: blue;

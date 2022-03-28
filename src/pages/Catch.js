@@ -5,6 +5,7 @@ import { Button, Container, CatchArena, ModalCatch } from "../components";
 import { Row, Col, Card } from 'react-bootstrap';
 import { PokemonFetch } from "../fetchData";
 import pokemonData from "../placeholder_data/Pokemon";
+import { LocalStorageManager } from "../fetchData";
 
 export default function Catch(props) {
   const [pokemon, setPokemon] = useState(pokemonData);
@@ -37,7 +38,7 @@ export default function Catch(props) {
   const catchClick = () => {
     console.log('click-catch', pokemon, successShow, failedShow)
     const chance = getRandomInt(1, 3);
-    if(chance == 1) {
+    if (chance == 1) {
       setSuccessShow(true);
     } else {
       setFailedShow(true);
@@ -47,7 +48,12 @@ export default function Catch(props) {
   const handleClose = () => {
     setFailedShow(false);
     setSuccessShow(false);
-    setTimeout(() => {refresh()}, 100)
+    setTimeout(() => { refresh() }, 100)
+  }
+
+  const handleButton = (nickname) => {
+    console.log('tes')
+    console.log(LocalStorageManager.insert({ ...pokemon.pokemon[0], nickname: nickname }))
   }
 
   return (
@@ -57,8 +63,8 @@ export default function Catch(props) {
           <Link to="/">Home</Link>
         </ul>
       </li>
-      <ModalCatch show={failedShow} pokemon={pokemon.pokemon[0]} handleClose={handleClose}></ModalCatch>
-      <ModalCatch isSuccess show={successShow} pokemon={pokemon.pokemon[0]} handleClose={handleClose}></ModalCatch>
+      <ModalCatch show={failedShow} pokemon={pokemon.pokemon[0]} handleClose={handleClose} handleButton={handleButton}></ModalCatch>
+      <ModalCatch isSuccess show={successShow} pokemon={pokemon.pokemon[0]} handleClose={handleClose} handleButton={handleButton}></ModalCatch>
       <CatchArena bg={randomBg()} pokemon={pokemon.pokemon[0]}></CatchArena>
       <Row>
         <Col xs={6} className='d-flex'>
@@ -81,39 +87,3 @@ function randomBg() {
   console.log('dsa')
   return Math.floor(Math.random() * 5);
 }
-
-
-function Child({onMount}) {
-  const [value, setValue] = useState(0);
-
-  useEffect(() => {
-    onMount([value, setValue]);
-  }, [onMount, value]);
-
-
-  return (
-    <div>
-      {value}
-    </div>    
-  );
-};
-
-
-function Parent() {
-
-  let value = null;
-  let setValue = null;
-  
-  const onChildMount = (dataFromChild) => {
-    value = dataFromChild[0];
-    setValue = dataFromChild[1];
-  };
-
-  // Call setValue to update child without updating parent
-
-  return (
-    <div>
-      <Child onMount={onChildMount}/>
-    </div>    
-  );
-};

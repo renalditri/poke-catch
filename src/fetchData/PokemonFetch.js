@@ -58,6 +58,7 @@ export default class PokemonFetch {
       pokemon: pokemon_v2_pokemonspecies(where: {id: {_eq: ${id}}}) {
         id
         name
+        generation_id
         is_baby
         is_legendary
         is_mythical

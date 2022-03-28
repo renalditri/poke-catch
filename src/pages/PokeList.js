@@ -9,7 +9,7 @@ import placeholderData from "../placeholder_data/PokemonListGen";
 
 export default function PokeList(props) {
   const [pokemonList, setPokemonList] = useState(placeholderData);
-  const [colSize, setColSize] = useState(12);
+  const [colSize, setColSize] = useState(6);
   const { gen } = useParams();
   const CardContainer = styled(Card)`
     padding: 2rem;
